@@ -1,10 +1,9 @@
-import { Header } from "../_components/header/header"
+import { Header } from "../_components/header/header";
 
-export default function About() {
+export default function Home() {
   return (
-    <>
-      <h1>ABOUT-BARBERSHOP</h1>
-
-    </>
+    <main className="flex min-h-screen flex-col items-center justify-between">
+      <Header />
+    </main>
   );
 }
