@@ -28,12 +28,14 @@ export default async function Home() {
         <h2 className="text-xs uppercase text-gray-400 font-bold mb-3">AGENDAMENTOS</h2>
         <BookingItem />
       </div>
-      <div className="px-5 mt-6">
+      <div className="mt-6">
         <h2 className="text-xs uppercase text-gray-400 font-bold mb-3">RECOMENDADOS</h2>
         <div>
-          {barbershops.map((barbershop: Barbershop ) => {
-            <BarbershopItem key={barbershop.id} barbershop={barbershop} />
-          })}
+          {
+            barbershops.map((barbershop) =>
+              <BarbershopItem key={barbershop.id} barbershop={barbershop} />
+            )
+          }
         </div>
       </div>
     </>
