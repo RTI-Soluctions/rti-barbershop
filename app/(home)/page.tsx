@@ -5,7 +5,6 @@ import { Search } from "./_component/search";
 import { BookingItem } from "../_components/booking-item";
 import { db } from "../_lib/prisma";
 import { BarbershopItem } from "../_components/barbershop-item";
-import { Barbershop } from "@prisma/client";
 
 export default async function Home() {
 
@@ -30,10 +29,22 @@ export default async function Home() {
       </div>
       <div className="px-5 mt-6">
         <h2 className="text-xs uppercase text-gray-400 font-bold mb-3">RECOMENDADOS</h2>
-        <div>
-          {barbershops.map((barbershop: Barbershop ) => {
-            <BarbershopItem key={barbershop.id} barbershop={barbershop} />
-          })}
+        <div className="flex gap-4 overflow-x-auto [&::-webkit-scrollbar]:hidden">
+          {
+            barbershops.map((barbershop) =>
+              <BarbershopItem key={barbershop.id} barbershop={barbershop} />
+            )
+          }
+        </div>
+      </div>
+      <div className="px-5 mt-6 mb-6">
+        <h2 className="text-xs uppercase text-gray-400 font-bold mb-3">POPULARES</h2>
+        <div className="flex gap-4 overflow-x-auto [&::-webkit-scrollbar]:hidden">
+          {
+            barbershops.map((barbershop) =>
+              <BarbershopItem key={barbershop.id} barbershop={barbershop} />
+            )
+          }
         </div>
       </div>
     </>
