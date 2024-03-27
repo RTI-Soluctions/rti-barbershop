@@ -1,5 +1,6 @@
 import { db } from "@/app/_lib/prisma";
 import BarbershopInfo from "./_components/barbershop-info";
+import ServiceItem from "./_components/service-item";
 
 interface BarbershopDetailsPageProps {
   params: any;
@@ -8,7 +9,6 @@ interface BarbershopDetailsPageProps {
 const BarbershopDetailsPage = async ({
   params,
 }: BarbershopDetailsPageProps) => {
-
   if (!params.id) {
     return null;
   }
@@ -17,6 +17,9 @@ const BarbershopDetailsPage = async ({
     where: {
       id: params.id,
     },
+    include: {
+      Service: true,
+    },
   });
 
   if (!barbershop) {
@@ -24,13 +27,15 @@ const BarbershopDetailsPage = async ({
   }
 
   return (
-    <>
+    <div>
       <BarbershopInfo barbershop={barbershop} />
-    </>
+      <div className="px-5 gap-3 flex flex-col py-6 ">
+        {barbershop.Service.map((service) => (
+          <ServiceItem key={service.id} service={service} />
+        ))}
+      </div>
+    </div>
   );
 };
 
 export default BarbershopDetailsPage;
-
-
-// PAREI NO 47:14

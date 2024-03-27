@@ -4,6 +4,7 @@ import { Button } from "@/app/_components/ui/button";
 import { Barbershop } from "@prisma/client";
 import { ChevronLeftIcon, MapPinIcon, MenuIcon, StarIcon } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 
 interface BarbershopInfoProps {
@@ -12,10 +13,19 @@ interface BarbershopInfoProps {
   
 
 const BarbershopInfo = ({barbershop}: BarbershopInfoProps) => {
+
+  const router = useRouter();
+
+  const handleBackClick = () => {
+    router.back();
+
+  }
+
     return ( 
         <div>
         <div className="h-[250px] w-full relative">
           <Button
+            onClick={handleBackClick}
             size="icon"
             variant="outline"
             className="z-50 absolute top-4 left-4"
