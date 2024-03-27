@@ -23,8 +23,8 @@ model Barbershop {
   name       String
   address    String
   imageUrl  String
-  Service   Service[]
-  Bookings    Booking[]
+  service   Service[]
+  bookings    Booking[]
 }
 
 model Service {
