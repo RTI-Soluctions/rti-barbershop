@@ -18,7 +18,7 @@ const BarbershopDetailsPage = async ({
       id: params.id,
     },
     include: {
-      Service: true,
+      service: true,
     },
   });
 
@@ -30,7 +30,7 @@ const BarbershopDetailsPage = async ({
     <div>
       <BarbershopInfo barbershop={barbershop} />
       <div className="px-5 gap-3 flex flex-col py-6 ">
-        {barbershop.Service.map((service) => (
+        {barbershop.service.map((service) => (
           <ServiceItem key={service.id} service={service} />
         ))}
       </div>
