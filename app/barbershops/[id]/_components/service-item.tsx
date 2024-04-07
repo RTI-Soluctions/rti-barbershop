@@ -51,8 +51,6 @@ const ServiceItem = ({
     if (!isAuthenticated) {
       return signIn("google");
     }
-
-    //TODO: Open modal de agendamento.
   };
 
   return (
@@ -179,7 +177,9 @@ const ServiceItem = ({
                       </Card>
                     </div>
                     <SheetFooter className="px-5">
-                      <Button>Confirmar reserva</Button>
+                      <Button disabled={!hour || !date}>
+                        Confirmar reserva
+                      </Button>
                     </SheetFooter>
                   </SheetContent>
                 </Sheet>
