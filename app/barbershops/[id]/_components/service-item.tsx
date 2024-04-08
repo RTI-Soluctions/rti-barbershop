@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/app/_components/ui/button";
 import { Calendar } from "@/app/_components/ui/calendar";
 import { Card, CardContent } from "@/app/_components/ui/card";
@@ -12,7 +12,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/app/_components/ui/sheet";
-import { Barbershop, Service } from "@prisma/client";
+import { Barbershop, Booking, Service } from "@prisma/client";
 import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
 import React from "react";
@@ -23,6 +23,7 @@ import { saveBooking } from "../_actions/save-booking";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { getDayBookings } from "../_actions/get-day-bookings";
 
 interface ServiceItemProps {
   service: Service;
@@ -43,10 +44,44 @@ const ServiceItem = ({
   const [hour, setHour] = useState<string | undefined>();
   const [submitIsLoading, setSubmitIsLoading] = useState(false);
   const [sheetIsOpen, setSheetIsOpen] = useState(false);
+  const [dayBookings, setDayBookings] = useState<Booking[]>([]);
+
+  useEffect(() => {
+    if (!date) {
+      return;
+    }
+
+    const refreshAvailableHours = async () => {
+      const hoursBookings = await getDayBookings(date);
+      setDayBookings(hoursBookings);
+    };
+
+    refreshAvailableHours();
+  }, [date]);
 
   const timeList = useMemo(() => {
-    return date ? generateDayTimeList(date) : [];
-  }, [date]);
+    if (!date) {
+      return [];
+    }
+
+    return generateDayTimeList(date).filter((time) => {
+      const timeHour = Number(time.split(":")[0]);
+      const timeMinutes = Number(time.split(":")[1]);
+
+      const verifyBookings = dayBookings.find((booking) => {
+        const bookingHour = booking.date.getHours();
+        const bookingMinutes = booking.date.getMinutes();
+
+        return bookingHour === timeHour && bookingMinutes === timeMinutes;
+      });
+
+      if (!verifyBookings) {
+        return true;
+      }
+
+      return false;
+    });
+  }, [date, dayBookings]);
 
   const handleBookingClick = () => {
     if (!isAuthenticated) {
@@ -86,7 +121,7 @@ const ServiceItem = ({
       setSheetIsOpen(false);
       setHour(undefined);
       setDate(undefined);
-      toast("Reserva realizada com sucesso!", {
+      toast.success("Reserva realizada com sucesso!", {
         description: format(newDate, "'Para' dd 'de' MMMM 'às' HH':'mm '.'", {
           locale: ptBR,
         }),
