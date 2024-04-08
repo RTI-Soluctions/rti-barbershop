@@ -52,12 +52,12 @@ const ServiceItem = ({
     }
 
     const refreshAvailableHours = async () => {
-      const hoursBookings = await getDayBookings(date);
+      const hoursBookings = await getDayBookings(barbershop.id, date);
       setDayBookings(hoursBookings);
     };
 
     refreshAvailableHours();
-  }, [date]);
+  }, [date, barbershop.id]);
 
   const timeList = useMemo(() => {
     if (!date) {
