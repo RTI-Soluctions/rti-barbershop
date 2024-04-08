@@ -15,7 +15,7 @@ const BarbershopInfo = ({ barbershop }: BarbershopInfoProps) => {
   const router = useRouter();
 
   const handleBackClick = () => {
-    router.back();
+    router.push("/");
   };
 
   return (
@@ -24,8 +24,8 @@ const BarbershopInfo = ({ barbershop }: BarbershopInfoProps) => {
         <Button
           onClick={handleBackClick}
           size="icon"
-          variant="outline"
-          className="z-50 absolute top-4 left-4"
+          variant="outline" 
+          className="z-50 absolute top-4 left-4 h-10 w-10"
         >
           <ChevronLeftIcon />
         </Button>
