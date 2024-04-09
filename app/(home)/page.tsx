@@ -9,6 +9,8 @@ import { BarbershopItem } from "../_components/barbershop-item";
 export default async function Home() {
   const barbershops = await db.barbershop.findMany();
 
+  
+
   return (
     <>
       <Header />
@@ -25,7 +27,7 @@ export default async function Home() {
         <h2 className="text-xs uppercase text-gray-400 font-bold mb-3">
           AGENDAMENTOS
         </h2>
-        <BookingItem />
+        {/* <BookingItem /> */}
       </div>
       <div className="px-5 mt-6">
         <h2 className="text-xs uppercase text-gray-400 font-bold mb-3">

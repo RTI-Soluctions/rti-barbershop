@@ -19,6 +19,7 @@ export const authOptions: AuthOptions = {
         id: string;
         name: string;
         email: string;
+        image: string;
       };
 
       return session;
