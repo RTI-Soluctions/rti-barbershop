@@ -1,3 +1,5 @@
+"use client";
+
 import { Prisma } from "@prisma/client";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Badge } from "./ui/badge";
@@ -6,12 +8,19 @@ import { format, formatDate, isFuture } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import {
   Sheet,
+  SheetClose,
   SheetContent,
+  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "./ui/sheet";
 import Image from "next/image";
+import { Button } from "./ui/button";
+import { cancelBooking } from "../_actions/cancel-booking";
+import { toast } from "sonner";
+import { useState } from "react";
+import { Loader2 } from "lucide-react";
 
 interface BookingItemProps {
   booking: Prisma.BookingGetPayload<{
@@ -23,7 +32,22 @@ interface BookingItemProps {
 }
 
 export const BookingItem = ({ booking }: BookingItemProps) => {
+  const [isDeleteLoading, setIsDeleteLoading] = useState(false);
   const isBookingConfirmed = isFuture(booking.date);
+
+  const cancelBookingClick = async () => {
+    setIsDeleteLoading(true);
+
+    try {
+      await cancelBooking(booking.id);
+
+      toast.success("Reserva cancela com sucesso!");
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsDeleteLoading(false);
+    }
+  };
 
   return (
     <Sheet>
@@ -135,6 +159,24 @@ export const BookingItem = ({ booking }: BookingItemProps) => {
             </CardContent>
           </Card>
         </div>
+        <SheetFooter className="flex-row w-full gap-3 px-5 py-6">
+          <SheetClose asChild>
+            <Button variant="secondary" className="w-full">
+              Voltar
+            </Button>
+          </SheetClose>
+          <Button
+            disabled={!isBookingConfirmed || isDeleteLoading}
+            onClick={cancelBookingClick}
+            variant="destructive"
+            className="w-full"
+          >
+            {isDeleteLoading && (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            )}
+            Cancelar Reserva
+          </Button>
+        </SheetFooter>
       </SheetContent>
     </Sheet>
   );

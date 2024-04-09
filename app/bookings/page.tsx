@@ -24,6 +24,9 @@ const BookingsPage = async () => {
         service: true,
         barbershop: true,
       },
+      orderBy: {
+        date: "asc",
+      },
     }),
     db.booking.findMany({
       where: {
@@ -35,6 +38,9 @@ const BookingsPage = async () => {
       include: {
         service: true,
         barbershop: true,
+      },
+      orderBy: {
+        date: "asc",
       },
     }),
   ]);
