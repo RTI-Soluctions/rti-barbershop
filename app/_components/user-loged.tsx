@@ -22,8 +22,8 @@ const UserLoged = () => {
         <div className="flex items-center justify-between px-5">
           <div className="flex items-center gap-4 mt-6">
             <Avatar>
-              <AvatarImage src={data.user.image as string} />
-              <AvatarFallback>Imagem de {data.user.name}</AvatarFallback>
+              <AvatarImage src={data.user?.image || ""} />
+              <AvatarFallback>Imagem de {data.user?.name}</AvatarFallback>
             </Avatar>
             <h3 className="">{data.user.name}</h3>
           </div>
