@@ -6,13 +6,13 @@ import { BookingItem } from "../_components/booking-item";
 import { db } from "../_lib/prisma";
 import { BarbershopItem } from "../_components/barbershop-item";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../api/auth/[...nextauth]/route";
+import { authOptions } from "../_lib/auth";
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
 
   const [barbershops, confirmedBookings] = await Promise.all([
-    db.barbershop.findMany(),
+    db.barbershop.findMany({ orderBy: { name: "asc" } }),
 
     session?.user
       ? db.booking.findMany({
@@ -26,6 +26,7 @@ export default async function Home() {
             service: true,
             barbershop: true,
           },
+          orderBy: { date: "asc" },
         })
       : Promise.resolve([]),
   ]);
@@ -51,12 +52,13 @@ export default async function Home() {
         {confirmedBookings.length > 0 && (
           <>
             <h2 className="pl-5 text-xs mb-3 uppercase text-gray-400 font-bold">
-              Agendamentos
+              Próximo Agendamento
             </h2>
-            <div className="px-5 flex gap-3 overflow-x-auto [&::-webkit-scrollbar]:hidden">
-              {confirmedBookings.map((booking) => (
-                <BookingItem key={booking.id} booking={booking} />
-              ))}
+            <div className="px-5 flex gap-3">
+              <BookingItem
+                key={confirmedBookings[0].id}
+                booking={confirmedBookings[0]}
+              />
             </div>
           </>
         )}
