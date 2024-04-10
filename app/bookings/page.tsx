@@ -51,18 +51,31 @@ const BookingsPage = async () => {
       <div className="px-5 py-6flex flex-col gap-3 mt-4 ">
         <h1 className="text-xl font-bold">Agendamentos</h1>
       </div>
-      <div className="px-5 py-6 flex flex-col gap-3">
-        <p className="text-gray-400 uppercase font-bold text-sm">Confirmados</p>
-        {confirmedBookings.map((booking) => (
-          <BookingItem key={booking.id} booking={booking} />
-        ))}
-      </div>
-      <div className="px-5 py-6 flex flex-col gap-3">
-        <p className="text-gray-400 uppercase font-bold text-sm">Finalizados</p>
-        {finishedBookings.map((booking) => (
-          <BookingItem key={booking.id} booking={booking} />
-        ))}
-      </div>
+      {confirmedBookings.length > 0 && (
+        <>
+          <div className="px-5 py-6 flex flex-col gap-3">
+            <p className="text-gray-400 uppercase font-bold text-sm">
+              Confirmados
+            </p>
+            {confirmedBookings.map((booking) => (
+              <BookingItem key={booking.id} booking={booking} />
+            ))}
+          </div>
+        </>
+      )}
+
+      {finishedBookings.length > 0 && (
+        <>
+          <div className="px-5 py-6 flex flex-col gap-3">
+            <p className="text-gray-400 uppercase font-bold text-sm">
+              Finalizados
+            </p>
+            {finishedBookings.map((booking) => (
+              <BookingItem key={booking.id} booking={booking} />
+            ))}
+          </div>
+        </>
+      )}
     </>
   );
 };
