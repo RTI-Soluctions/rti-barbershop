@@ -24,11 +24,16 @@ const formSchema = z.object({
     .min(2, "Sua pesquisa deve pelo menos 2 caracteres."),
 });
 
-export const Search = () => {
+interface SearchProps {
+  defaultValues?: z.infer<typeof formSchema>;
+}
+
+export const Search = ({ defaultValues }: SearchProps) => {
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues,
   });
 
   const handleSubmit = (data: z.infer<typeof formSchema>) => {
