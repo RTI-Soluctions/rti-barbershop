@@ -15,6 +15,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { z } from "zod";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   search: z
@@ -24,12 +25,14 @@ const formSchema = z.object({
 });
 
 export const Search = () => {
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
 
   const handleSubmit = (data: z.infer<typeof formSchema>) => {
-    console.log(data.search);
+    router.push(`/barbershops?search=${data.search}`);
   };
 
   return (
@@ -55,7 +58,7 @@ export const Search = () => {
               </FormItem>
             )}
           />
-          <Button variant="default">
+          <Button variant="default" type="submit">
             <SearchIcon size={20} />
           </Button>
         </form>
