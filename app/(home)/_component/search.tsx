@@ -24,6 +24,7 @@ const formSchema = z.object({
 });
 
 export const Search = () => {
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
@@ -60,6 +61,7 @@ export const Search = () => {
           </Button>
         </form>
       </Form>
+
     </div>
   );
 };
