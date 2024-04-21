@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import { Footer } from "./_components/footer";
 import AuthProvider from "./_providers/authProvider";
 import { Toaster } from "./_components/ui/sonner";
-
-const inter = Inter({ subsets: ["latin"] });
+import React from "react";
 
 export const metadata: Metadata = {
   title: "Rti-Barbershop",
