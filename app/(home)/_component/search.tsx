@@ -15,6 +15,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { z } from "zod";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   search: z
@@ -23,14 +24,19 @@ const formSchema = z.object({
     .min(2, "Sua pesquisa deve pelo menos 2 caracteres."),
 });
 
-export const Search = () => {
+interface SearchProps {
+  defaultValues?: z.infer<typeof formSchema>;
+}
 
+export const Search = ({ defaultValues }: SearchProps) => {
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues,
   });
 
   const handleSubmit = (data: z.infer<typeof formSchema>) => {
-    console.log(data.search);
+    router.push(`/barbershops?search=${data.search}`);
   };
 
   return (
@@ -56,7 +62,7 @@ export const Search = () => {
               </FormItem>
             )}
           />
-          <Button variant="default">
+          <Button variant="default" type="submit">
             <SearchIcon size={20} />
           </Button>
         </form>
